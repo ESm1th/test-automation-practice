@@ -3,13 +3,13 @@ Test automation practice with pytest and selenium
 
 Test web site: [http://automationpractice.com/](http://automationpractice.com/)
 
-### How to start
 Environment:
 Type|Description
 ----|-----------
 OS|`Ubuntu Linux 18.04.4 LTS`
 python|`python 3.7`
 
+### How to start
 Create virtualenvironment and activate it:
 ```
 $ mkvirtualenv testing --python=python3.7
