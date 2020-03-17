@@ -1,5 +1,6 @@
 # test_automation_practice
 Test automation practice with pytest and selenium
+
 Test web site: [http://automationpractice.com/](http://automationpractice.com/)
 
 ### How to start
