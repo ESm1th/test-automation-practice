@@ -14,7 +14,7 @@ Create virtualenvironment and activate it:
 ```
 $ mkvirtualenv testing --python=python3.7
 ```
-I am using virtualenvwrapper, therefore when environment has been created it activated automatically
+I am using `virtualenvwrapper`, therefore when environment has been created it activated automatically.
 
 Clone repository:
 ```
