@@ -3,7 +3,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as cond
 
 from pages.base import BasePage
-from pages.locators import IndexPageLocators
+from pages.locators import IndexPageLocators, QuickProductViewLocators
 
 
 class IndexPage(BasePage):
@@ -12,9 +12,6 @@ class IndexPage(BasePage):
     locators = IndexPageLocators()
     elements = {}
 
-    def __init__(self, browser):
-        self.browser = browser
-    
     def load(self):
         self.browser.get(self.url)
     
@@ -33,12 +30,21 @@ class IndexPage(BasePage):
         if not self.elements.get('quick_view_button'):
             self.elements['quick_view_button'] = self.get_quick_view_button()
         return self.elements['quick_view_button']
+    
+    @property
+    def quick_view(self):
+        if not self.elements.get('quick_view'):
+            self.elements['quick_view'] = self.get_quick_view()
+        return self.elements['quick_view']
 
     def get_product_card(self):
         return self.browser.find_element(*self.locators.PRODUCT_CARD)
 
     def get_quick_view_button(self):
         return self.browser.find_element(*self.locators.QUICK_LINK_BUTTON)
+
+    def get_quick_view(self):
+        return self.browser.find_element(*self.locators.PRODUCT)
 
     def show_quick_view_button(self):
         ActionChains(self.browser).move_to_element(
@@ -50,5 +56,18 @@ class IndexPage(BasePage):
             self.quick_view_button
         ).click().perform()
         WebDriverWait(self.browser, 30).until(
-            cond.element_to_be_clickable(*self.locators.QUICK_VIEW)
+            cond.frame_to_be_available_and_switch_to_it(
+                self.locators.QUICK_VIEW
+            )
         )
+
+
+class QuickViewProductPage(BasePage):
+
+    locators = QuickProductViewLocators()
+
+    def load(self):
+        index_page = IndexPage(self.browser)
+        index_page.load()
+        index_page.show_quick_view_button()
+        index_page.show_quick_view()

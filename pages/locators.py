@@ -10,7 +10,10 @@ class IndexPageLocators:
             'div/a[@class="quick-view"]'
         )
     )
-    QUICK_VIEW = (
-        By.XPATH,
-        '//body[@id="product"]/div/div[@class="primary_block"]'
-    )
+    QUICK_VIEW = (By.CLASS_NAME, 'fancybox-iframe')
+    PRODUCT = (By.ID, 'product')
+
+
+class QuickProductViewLocators:
+    pass
+
