@@ -16,7 +16,17 @@ def browser():
     driver.quit()
 
 
-def test_index_page(browser):
+def test_index_page_load_product_quick_view(browser):
+    """
+    Test case:
+        - load `index` page
+        - check one product card and that `quick view` button link
+        not displayed on it
+        - move mouse on product card
+        - check that `quick view` button link is displayed now
+        - click on `quick view` button link and verify that `quick view` iframe
+        loaded and displayed
+    """
     index_page = IndexPage(browser)
     index_page.load()
 
@@ -30,4 +40,6 @@ def test_index_page(browser):
     index_page.show_quick_view_button()
     assert index_page.quick_view_button.is_displayed() == True
 
+    # check that `iframe` loaded and displayed
     index_page.show_quick_view()
+    assert index_page.quick_view.is_displayed() == True
