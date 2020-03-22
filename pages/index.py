@@ -7,54 +7,72 @@ from pages.locators import IndexPageLocators, QuickProductViewLocators
 
 
 class IndexPage(BasePage):
-    
+
     url = 'http://automationpractice.com/'
     locators = IndexPageLocators()
     elements = {}
 
     def load(self):
+        """
+        Loads `index` page of web store.
+        """
         self.browser.get(self.url)
-    
+
     @property
     def title(self):
+        """
+        Returns web page title.
+        """
         return self.browser.title
 
-    @property
-    def product_card(self):
-        if not self.elements.get('product_card'):
-            self.elements['product_card'] = self.get_product_card()
-        return self.elements['product_card']
-
-    @property
-    def quick_view_button(self):
-        if not self.elements.get('quick_view_button'):
-            self.elements['quick_view_button'] = self.get_quick_view_button()
-        return self.elements['quick_view_button']
-    
-    @property
-    def quick_view(self):
-        if not self.elements.get('quick_view'):
-            self.elements['quick_view'] = self.get_quick_view()
-        return self.elements['quick_view']
-
     def get_product_card(self):
+        """
+        Returns `product card element`.
+        """
         return self.browser.find_element(*self.locators.PRODUCT_CARD)
 
-    def get_quick_view_button(self):
-        return self.browser.find_element(*self.locators.QUICK_LINK_BUTTON)
+    def get_quick_view_button(self, locator):
+        """
+        Returns `quick view link` button by locator.
+        """
+        return self.browser.find_element(*locator)
 
     def get_quick_view(self):
+        """
+        Returns products `quick view` element.
+        """
         return self.browser.find_element(*self.locators.PRODUCT)
 
     def show_quick_view_button(self):
-        ActionChains(self.browser).move_to_element(
-            self.product_card
-        ).perform()
+        """
+        Moves mouse to product card element to show hidden button link
+        on desktop browser.
+        """
+        product_card = self.get_product_card()
+        ActionChains(self.browser).move_to_element(product_card).perform()
 
-    def show_quick_view(self):
+    def show_quick_view(self, mobil=False):
+        """
+        Depending on the mobile or non-mobile browser, it receives
+        the `quick link` button element, moves to it and clicks on it
+        to load the iframe` quick view`.
+
+        :param mobil bool:  if True browser has mobil window size else browser
+                            has desktop window size
+        """
+        if mobil:
+            quick_view_button = self.get_quick_view_button(
+                self.locators.QUICK_LINK_BUTTON_MOBIL
+            )
+        else:
+            quick_view_button = self.get_quick_view_button(
+                self.locators.QUICK_LINK_BUTTON
+            )
+
         ActionChains(self.browser).move_to_element(
-            self.quick_view_button
+            quick_view_button
         ).click().perform()
+
         WebDriverWait(self.browser, 30).until(
             cond.frame_to_be_available_and_switch_to_it(
                 self.locators.QUICK_VIEW
