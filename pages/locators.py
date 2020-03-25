@@ -20,6 +20,15 @@ class IndexPageLocators:
     )
     QUICK_VIEW = (By.CLASS_NAME, 'fancybox-iframe')
     PRODUCT = (By.ID, 'product')
+    SHOPPING_CART = (By.XPATH, '//div[@class="shopping_cart"]')
+    SHOPPING_CART_QUANTITY = (
+        By.XPATH,
+        '//span[@class="ajax_cart_quantity unvisible"]'
+    )
+    SHOPPING_CART_EMPTY = (
+        By.XPATH,
+        '//span[@class="ajax_cart_no_product"]'
+    )
 
 
 class QuickProductViewLocators:

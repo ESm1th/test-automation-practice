@@ -3,14 +3,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as cond
 
 from pages.base import BasePage
-from pages.locators import IndexPageLocators, QuickProductViewLocators
+from pages.locators import IndexPageLocators
 
 
 class IndexPage(BasePage):
 
     url = 'http://automationpractice.com/'
     locators = IndexPageLocators()
-    elements = {}
 
     def load(self):
         """
@@ -79,13 +78,19 @@ class IndexPage(BasePage):
             )
         )
 
+    def get_shopping_cart_quantity(self):
+        """
+        Gets quantity of products in the shopping cart.
+        """
+        display_prop = self.browser.find_element(
+            *self.locators.SHOPPING_CART_EMPTY
+        ).value_of_css_property('display')
 
-class QuickViewProductPage(BasePage):
+        if display_prop != 'none':
+            return 0
 
-    locators = QuickProductViewLocators()
+        quantity = self.browser.find_element(
+            *self.locators.SHOPPING_CART_QUANTITY
+        ).get_attribute('innerHTML')
 
-    def load(self):
-        index_page = IndexPage(self.browser)
-        index_page.load()
-        index_page.show_quick_view_button()
-        index_page.show_quick_view()
+        return int(quantity)

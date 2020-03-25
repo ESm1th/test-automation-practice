@@ -1,23 +1,20 @@
 import pytest
 from pytest_bdd import scenarios, given, when, then, parsers
 from selenium.webdriver import Chrome
-from selenium.webdriver.chrome.options import Options
+# from selenium.webdriver.chrome.options import Options
 
 from pages.index import IndexPage
 
 
-scenarios('../features/index.feature')
+scenarios('../features/index_page/show_quick_view.feature')
+scenarios('../features/index_page/add_to_cart_from_card.feature')
 
 
 EXTRA_TYPES = {'Number': int}
+CONVERTERS = {'width': int, 'height': int}
 
 
-@given(
-    parsers.cfparse(
-        'browser with window size "{width:Number}", "{height:Number}"',
-        extra_types=EXTRA_TYPES
-    )
-)
+@given('browser with window size "<width>", "<height>"')
 def browser(width, height):
     driver_path = '/snap/bin/chromium.chromedriver'
     driver = Chrome(driver_path)
@@ -47,7 +44,7 @@ def show_quick_view(index_page):
     index_page.show_quick_view()
 
 
-@when('the user move mouse to eye icon on product card')
+@when('the user move mouse to eye icon on product card and click on it')
 def show_quick_view_mobil(index_page):
     index_page.show_quick_view(mobil=True)
 

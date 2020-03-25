@@ -6,11 +6,11 @@ class BasePage:
 
     def __init__(self, browser):
         self.browser = browser
-    
+
     @property
     def url(self):
         raise NotImplementedError
-    
+
     @property
     def locators(self):
         raise NotImplementedError
