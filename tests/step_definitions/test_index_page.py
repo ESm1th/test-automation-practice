@@ -14,15 +14,6 @@ EXTRA_TYPES = {'Number': int}
 CONVERTERS = {'width': int, 'height': int}
 
 
-@given('browser with window size "<width>", "<height>"')
-def browser(width, height):
-    driver_path = '/snap/bin/chromium.chromedriver'
-    driver = Chrome(driver_path)
-    driver.set_window_size(width, height)
-    yield driver
-    driver.quit()
-
-
 @pytest.fixture(scope='function')
 def index_page(browser):
     index_page = IndexPage(browser)
