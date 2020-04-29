@@ -40,6 +40,12 @@ def test_active_element_body(browser, load):
   assert browser.find_element_by_tag_name('body') is browser.switch_to.active_element
 ```
 Данный тест будет иметь статус `PASS`, т.к. страница только что загрузилась и в фокусе нет элементов.
+
+В следующем тесте переключим фокус на `<input>` элемент:
+<p align="center">
+  <img width="80%" height="auto" src="search_input.png">
+</p>
+
 ```python
 def test_active_element_not_body(browser, load, actions):
   search_input = browser.find_element_by_id('search_query_top')
