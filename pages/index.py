@@ -1,96 +1,56 @@
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as cond
-
 from pages.base import BasePage
 from pages.locators import IndexPageLocators
+from pages.elements import index_page as elements
 
 
 class IndexPage(BasePage):
 
     url = 'http://automationpractice.com/'
     locators = IndexPageLocators()
+    elements = {}
 
-    def load(self):
+    def add_product_to_cart(self):
         """
-        Loads `index` page of web store.
+        Add product to cart from product card by clicking button 'Add to cart'.
         """
-        self.browser.get(self.url)
+        self.product_card.add_to_cart()
+        self.layer_cart.continue_button.click()
 
     @property
-    def title(self):
-        """
-        Returns web page title.
-        """
-        return self.browser.title
+    def product_card(self):
+        """Returns `product_card` element."""
+        return self.get_element(
+            'product_card', self.locators.PRODUCT_CARD, elements.ProductCard
+        )
 
-    def get_product_card(self):
-        """
-        Returns `product card element`.
-        """
-        return self.browser.find_element(*self.locators.PRODUCT_CARD)
+    @property
+    def layer_cart(self):
+        """Returns `layer_cart` element."""
+        return self.get_element(
+            'layer_cart', self.locators.LAYER_CART, elements.LayerCart
+        )
 
-    def get_quick_view_button(self, locator):
-        """
-        Returns `quick view link` button by locator.
-        """
-        return self.browser.find_element(*locator)
+    @property
+    def shopping_cart(self):
+        """Returns `shopping_cart` element."""
+        return self.get_element(
+            'shopping_cart', self.locators.SHOPPING_CART, elements.ShoppingCart
+        )
 
-    def get_quick_view(self):
-        """
-        Returns products `quick view` element.
-        """
-        return self.browser.find_element(*self.locators.PRODUCT)
-
-    def show_quick_view_button(self):
-        """
-        Moves mouse to product card element to show hidden button link
-        on desktop browser.
-        """
-        product_card = self.get_product_card()
-        ActionChains(self.browser).move_to_element(product_card).perform()
-
-    def show_quick_view(self, mobil=False):
+    def show_quick_view(self, mobil: bool = False):
         """
         Depending on the mobile or non-mobile browser, it receives
         the `quick link` button element, moves to it and clicks on it
-        to load the iframe` quick view`.
+        to load the `iframe` quick view.
 
-        :param mobil bool:  if True browser has mobil window size else browser
+        @param mobil:  if True browser has mobil window size else browser
                             has desktop window size
         """
-        if mobil:
-            quick_view_button = self.get_quick_view_button(
-                self.locators.QUICK_LINK_BUTTON_MOBIL
-            )
-        else:
-            quick_view_button = self.get_quick_view_button(
-                self.locators.QUICK_LINK_BUTTON
-            )
-
-        ActionChains(self.browser).move_to_element(
-            quick_view_button
-        ).click().perform()
+        self.move_to_product_card()
+        self.product_card.quick_view_button.click()
 
         WebDriverWait(self.browser, 30).until(
-            cond.frame_to_be_available_and_switch_to_it(
+            EC.frame_to_be_available_and_switch_to_it(
                 self.locators.QUICK_VIEW
             )
         )
-
-    def get_shopping_cart_quantity(self):
-        """
-        Gets quantity of products in the shopping cart.
-        """
-        display_prop = self.browser.find_element(
-            *self.locators.SHOPPING_CART_EMPTY
-        ).value_of_css_property('display')
-
-        if display_prop != 'none':
-            return 0
-
-        quantity = self.browser.find_element(
-            *self.locators.SHOPPING_CART_QUANTITY
-        ).get_attribute('innerHTML')
-
-        return int(quantity)
