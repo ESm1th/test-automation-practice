@@ -1,18 +1,15 @@
-import logging
-
 import pytest
-from pytest_bdd import given
 from selenium import webdriver
 
 
 def pytest_addoption(parser):
     parser.addoption(
-        '--browser_name', action='store', default='firefox',
+        '--browser', action='store', default='firefox',
         help='Choose browser: chrome or firefox.'
     )
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def available_browsers():
     browsers = {
         'firefox': webdriver.Firefox,
@@ -21,18 +18,19 @@ def available_browsers():
     return browsers
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def get_driver(request, available_browsers):
     try:
-        name = request.config.getoption('browser_name')
+        name = request.config.getoption('browser')
         return available_browsers[name]
     except KeyError:
         pytest.exit('Skipping all tests -> invalid browser name entered.')
 
 
-@given('browser with window size "<width>", "<height>"')
-def browser(get_driver, width, height):
+@pytest.fixture
+def browser(get_driver):
     driver = get_driver()
-    driver.set_window_size(width, height)
+    driver.maximize_window()
+    driver.implicitly_wait(5)
     yield driver
     driver.quit()
