@@ -38,9 +38,34 @@ class TestIndexPage:
     def test_check_cart_dropdown_prices(self, index_page):
         index_page.add_product_to_cart()
         index_page.shopping_cart.show_content()
+
         product_price = index_page.product_card.product_price
         shipping_price = index_page.shopping_cart.shipping_price
+
         assert shipping_price == 2
         assert index_page.shopping_cart.total_price == (
             product_price + shipping_price
         )
+
+    @pytest.mark.remove
+    def test_remove_product_from_cart(self, index_page):
+        index_page.add_product_to_cart()
+        index_page.shopping_cart.show_content()
+        index_page.shopping_cart.remove_product()
+        assert index_page.shopping_cart.is_empty()
+
+    @pytest.mark.quick_view
+    def test_quick_view_displayed(self, index_page):
+        index_page.show_quick_view()
+        assert index_page.quick_view.is_displayed()
+
+    @pytest.mark.quick_view
+    def test_quick_view_add_quantity(self, index_page):
+        index_page.show_quick_view()
+        index_page.quick_view.increase_quantity(num=2)
+        assert index_page.quick_view.quantity == 3
+
+    @pytest.mark.quick_view
+    def test_quick_view_change_size(self, index_page):
+        index_page.show_quick_view()
+        index_page.close_quick_view()
