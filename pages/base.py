@@ -37,7 +37,7 @@ class BasePage:
             element = self.browser.find_element(*locator)
             if not element.is_displayed():
                 WebDriverWait(self.browser, timeout).until(
-                    EC.visibility_of_element_located(locator)
+                    EC.visibility_of(element)
                 )
             self.elements[element] = element_type(element)
         return self.elements[element]

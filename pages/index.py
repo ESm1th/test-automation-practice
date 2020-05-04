@@ -37,20 +37,22 @@ class IndexPage(BasePage):
             'shopping_cart', self.locators.SHOPPING_CART, elements.ShoppingCart
         )
 
-    def show_quick_view(self, mobil: bool = False):
-        """
-        Depending on the mobile or non-mobile browser, it receives
-        the `quick link` button element, moves to it and clicks on it
-        to load the `iframe` quick view.
-
-        @param mobil:  if True browser has mobil window size else browser
-                            has desktop window size
-        """
-        self.move_to_product_card()
-        self.product_card.quick_view_button.click()
-
-        WebDriverWait(self.browser, 30).until(
-            EC.frame_to_be_available_and_switch_to_it(
-                self.locators.QUICK_VIEW
-            )
+    @property
+    def quick_view(self):
+        """Returns `quick_view` iframe for specific product"""
+        return self.get_element(
+            'quick_view', self.locators.QUICK_VIEW, elements.QuickView
         )
+
+    def show_quick_view(self):
+        """Show product's `quick_view` <iframe> and switch to it."""
+        self.product_card.show_quick_view()
+
+    def close_quick_view(self):
+        """
+        Switch to default content to find `close` button and close
+        `quick_view`.
+        """
+        self.browser.switch_to.default_content()
+        close_btn = self.browser.find_element(*self.locators.CLOSE_QUICK_VIEW)
+        close_btn.click()
