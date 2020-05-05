@@ -63,5 +63,6 @@ class QuickViewLocators:
     PRICE = (By.ID, 'our_price_display')
     QUANTITY_INPUT = (By.ID, 'quantity_wanted')
     PLUS_BUTTON = (By.XPATH, '//i[@class="icon-plus"]')
-    MINUS_BUTTON = (By.XPATH, '//i[@class="icion-minus"]')
+    MINUS_BUTTON = (By.XPATH, '//i[@class="icon-minus"]')
     SIZE_SELECT = (By.ID, 'group_1')
+    SIZE_RENDERED = (By.XPATH, '//div[@id="uniform-group_1"]/span')

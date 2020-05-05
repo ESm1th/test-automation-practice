@@ -5,6 +5,8 @@ from pages.elements import index_page as elements
 
 class IndexPage(BasePage):
 
+    """Represent `index` page."""
+
     url = 'http://automationpractice.com/'
     locators = IndexPageLocators()
     elements = {}
