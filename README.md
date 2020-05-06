@@ -1,30 +1,28 @@
-# test_automation_practice
-Test automation practice with pytest and selenium
+# test-automation-practice
+Практика автоматизации тестирования с `pytest` и `selenium`
 
-Test web site: [http://automationpractice.com/](http://automationpractice.com/)
+Объект тестирования: [http://automationpractice.com/](http://automationpractice.com/)
 
-Environment:
-Type|Description
+Окружение:
+Тип|Описание
 ----|-----------
-OS|`Ubuntu Linux 18.04.4 LTS`
-python|`python 3.7`
+ОС|`Ubuntu Linux 18.04.4 LTS`
+Python|`python 3.7`
 
 ### How to start
-Create virtualenvironment and activate it:
+Создайте виртуальное окружение и активируйте его.
 ```
 $ mkvirtualenv testing --python=python3.7
 ```
-I am using `virtualenvwrapper`, therefore when environment has been created it activated automatically.
-
-Clone repository:
+Клонируйте репозиторий:
 ```
-$ git clone https://github.com/ESm1th/test_automation_practice.git
+$ git clone https://github.com/ESm1th/test-automation-practice.git
 ```
-Change directory to project folder:
+Перейдите в директорию проекта:
 ```
 $ cd test_automation_practice
 ```
-Install requirements:
+Установите зависимости через `pip` используя зависимости из файла `requirements.txt`:
 ```
 $ pip install -r requirements.txt
 ```
