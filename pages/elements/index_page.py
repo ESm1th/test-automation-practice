@@ -253,11 +253,11 @@ class QuickView(BaseWebElement):
         """Decreases quantity of product by clicking on `minus button`."""
         self.minus_button.click()
 
-    def increase_quantity(self, num: int = 1, timeout: int = 10):
+    def increase_quantity(self, num: int = 1, timeout: int = 1):
         """Increases quantity of product by clicking on `plus button`."""
         for _ in range(num):
             self.plus_button.click()
-            time.sleep(1)
+            time.sleep(timeout)
 
     @property
     def minus_button(self):

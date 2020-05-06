@@ -83,7 +83,7 @@ class TestIndexPage:
         Given: index page loaded and shopping cart is empty
         When:  moving to product card and clicking on `add to cart` button
         And:   moving to shopping cart and removing product
-        Then:  shopping cart is not labeled with `(empty)` string
+        Then:  shopping cart is now labeled with `(empty)` string
         """
         index_page.add_product_to_cart()
         index_page.shopping_cart.show_content()
@@ -110,7 +110,7 @@ class TestIndexPage:
         Then:  quantity of product on quick view should be equals 3
         """
         index_page.show_quick_view()
-        index_page.quick_view.increase_quantity(num=2)
+        index_page.quick_view.increase_quantity(num=2, timeout=2)
         assert index_page.quick_view.quantity == 3
 
     @pytest.mark.quick_view
