@@ -8,10 +8,10 @@ from pages.elements.base import BaseWebElement
 
 class BasePage(ABC):
 
-    def __init__(self, browser):
+    def __init__(self, browser) -> None:
         self.browser = browser
 
-    def load(self):
+    def load(self) -> None:
         self.browser.get(self.url)
 
     @property
@@ -20,7 +20,7 @@ class BasePage(ABC):
         pass
 
     @property
-    def title(self):
+    def title(self) -> str:
         """Returns web page title."""
         return self.browser.title
 

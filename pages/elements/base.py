@@ -13,7 +13,7 @@ class BaseWebElement(ABC):
         return getattr(self.__element, attr)
 
     @property
-    def element(self):
+    def element(self) -> WebElement:
         return self.__element
 
     @property

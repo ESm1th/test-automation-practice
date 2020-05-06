@@ -8,6 +8,7 @@ from selenium.common.exceptions import (
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.remote.webelement import WebElement
 
 from . import locators
 from .base import BaseWebElement
@@ -20,13 +21,13 @@ class ProductCard(BaseWebElement):
 
     locators = locators.ProductCardLocators()
 
-    def add_to_cart(self):
+    def add_to_cart(self) -> None:
         """Add product to shopping cart."""
         self.move_to()
         self.add_to_cart_button.click()
 
     @property
-    def add_to_cart_button(self, timeout: int = 10):
+    def add_to_cart_button(self, timeout: int = 10) -> WebElement:
         """
         Finds `add to card` button on product card, move to it, waits when
         button will become clickable and returns it.
@@ -50,19 +51,19 @@ class ProductCard(BaseWebElement):
         ActionChains(self.parent).move_to_element(self.element).perform()
 
     @property
-    def product_name(self):
+    def product_name(self) -> str:
         """Returns product name from product card element."""
         product = self.find_element(*self.locators.PRODUCT_NAME_LINK)
         return product.text
 
     @property
-    def product_price(self):
+    def product_price(self) -> float:
         """Returns product price from product card element."""
         price = self.find_element(*self.locators.PRODUCT_PRICE)
         return float(price.text.replace('$', ''))
 
     @property
-    def quick_view_button(self):
+    def quick_view_button(self) -> WebElement:
         """Returns `quick view button` element."""
         return self.find_element(*self.locators.QUICK_VIEW_BUTTON)
 
@@ -89,30 +90,30 @@ class LayerCart(BaseWebElement):
     locators = locators.LayerCartLocators()
 
     @property
-    def checkout_button(self):
+    def checkout_button(self) -> WebElement:
         """Returns `checkout button` element."""
         return self.find_element(*self.locators.CHECKOUT_BUTTON)
 
     @property
-    def continue_button(self):
+    def continue_button(self) -> WebElement:
         """Returns `continue button` element by clicking on it `layer cart`
         will be closed."""
         return self.find_element(*self.locators.CONTINUE_BUTTON)
 
     @property
-    def product_name(self):
+    def product_name(self) -> str:
         """Returns product name from `layer cart` element."""
         product_name = self.find_element(*self.locators.PRODUCT_TITLE)
         return product_name.text
 
     @property
-    def product_price(self):
+    def product_price(self) -> float:
         """Returns product price from `layer cart` element."""
         product_price = self.find_element(*self.locators.PRODUCT_PRICE)
         return float(product_price.text.replace('$', ''))
 
     @property
-    def product_quantity(self):
+    def product_quantity(self) -> int:
         """Returns product quantity from `layer cart` element."""
         product_quantity = self.find_element(*self.locators.PRODUCT_QUANTITY)
         return int(product_quantity.text)
@@ -128,12 +129,12 @@ class ShoppingCart(BaseWebElement):
     locators = locators.ShoppingCartLocators()
 
     @property
-    def content(self):
+    def content(self) -> WebElement:
         """Returns `content` of shopping cart."""
         return self.find_element(*self.locators.CONTENT)
 
     @property
-    def empty(self):
+    def empty(self) -> WebElement:
         """
         Returns `empty` shopping cart element.
         This element is visible if there are no products in shopping cart.
@@ -151,7 +152,7 @@ class ShoppingCart(BaseWebElement):
             return int(quantity.text)
         return self.empty.text
 
-    def is_empty(self):
+    def is_empty(self) -> bool:
         """
         Checking if shopping cart is empty or not. Returns boolean value.
         """
@@ -159,7 +160,7 @@ class ShoppingCart(BaseWebElement):
             return True
         return False
 
-    def move_to(self):
+    def move_to(self) -> None:
         """
         Moves mouse to shopping cart element to show hidden `dropdown` content.
         """
@@ -186,12 +187,12 @@ class ShoppingCart(BaseWebElement):
                 )
 
     @property
-    def products(self):
+    def products(self) -> WebElement:
         """Returns list of products elements in shopping cart."""
         return self.find_elements(*self.locators.PRODUCTS)
 
     @property
-    def products_quantity(self):
+    def products_quantity(self) -> int:
         """Returns products quantity in shopping cart."""
         return len(self.products)
 
@@ -210,7 +211,7 @@ class ShoppingCart(BaseWebElement):
             EC.invisibility_of_element_located(product)
         )
 
-    def remove_all_products(self):
+    def remove_all_products(self) -> None:
         """
         Removes all products from shopping cart.
         """
@@ -220,13 +221,13 @@ class ShoppingCart(BaseWebElement):
             self.remove_product(product_number)
 
     @property
-    def shipping_price(self):
+    def shipping_price(self) -> float:
         """Returns shipping price."""
         shipping_price = self.find_element(*self.locators.SHIPPING_PRICE)
         return float(shipping_price.text.replace('$', ''))
 
     @property
-    def total_price(self):
+    def total_price(self) -> float:
         """
         Returns total price of shopping cart including prices of all
         products plus shipping price.
@@ -245,45 +246,45 @@ class QuickView(BaseWebElement):
 
     locators = locators.QuickViewLocators()
 
-    def change_size(self, size: str):
+    def change_size(self, size: str) -> None:
         """Changes size of product in <select> element."""
         self.size_select.select_by_value(size)
 
-    def decrease_quantity(self):
+    def decrease_quantity(self) -> None:
         """Decreases quantity of product by clicking on `minus button`."""
         self.minus_button.click()
 
-    def increase_quantity(self, num: int = 1, timeout: int = 1):
+    def increase_quantity(self, num: int = 1, timeout: int = 1) -> None:
         """Increases quantity of product by clicking on `plus button`."""
         for _ in range(num):
             self.plus_button.click()
             time.sleep(timeout)
 
     @property
-    def minus_button(self):
+    def minus_button(self) -> WebElement:
         """Returns `minus button` element."""
         return self.find_element(*self.locators.MINUS_BUTTON)
 
     @property
-    def plus_button(self):
+    def plus_button(self) -> WebElement:
         """Returns `plus button` element."""
         return self.find_element(*self.locators.PLUS_BUTTON)
 
     @property
-    def price(self):
+    def price(self) -> float:
         """Returns price of product."""
         price = self.find_element(*self.locators.PRICE)
         return float(price.text.remove('$', ''))
 
     @property
-    def quantity(self):
+    def quantity(self) -> int:
         """Returns quantity of product."""
         quantity = self.find_element(*self.locators.QUANTITY_INPUT)
         return int(quantity.get_attribute('value'))
 
     @property
     @polling(StaleElementReferenceException, retry=5)
-    def size(self):
+    def size(self) -> WebElement:
         """Returns size of product."""
         return self.find_element(*self.locators.SIZE_RENDERED).text
 
@@ -293,7 +294,7 @@ class QuickView(BaseWebElement):
         return self.size_select.first_selected_option.value
 
     @property
-    def size_select(self):
+    def size_select(self) -> Select:
         """Returns size's <select> element as instance of selenium `Select`."""
         element = self.find_element(*self.locators.SIZE_SELECT)
         return Select(element)
