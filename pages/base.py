@@ -1,10 +1,12 @@
+from abc import ABC, abstractmethod
+
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from pages.elements.base import BaseWebElement
 
 
-class BasePage:
+class BasePage(ABC):
 
     def __init__(self, browser):
         self.browser = browser
@@ -13,8 +15,9 @@ class BasePage:
         self.browser.get(self.url)
 
     @property
+    @abstractmethod
     def locators(self):
-        raise NotImplementedError
+        pass
 
     @property
     def title(self):
@@ -22,8 +25,9 @@ class BasePage:
         return self.browser.title
 
     @property
+    @abstractmethod
     def url(self):
-        raise NotImplementedError
+        pass
 
     def get_element(
         self, name: str, locator: tuple, element_type: BaseWebElement,
