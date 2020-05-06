@@ -9,7 +9,7 @@
 ОС|`Ubuntu Linux 18.04.4 LTS`
 Python|`python 3.7`
 
-### How to start
+### Как запустить тесты
 Создайте виртуальное окружение и активируйте его.
 ```
 $ mkvirtualenv testing --python=python3.7
@@ -26,3 +26,21 @@ $ cd test_automation_practice
 ```
 $ pip install -r requirements.txt
 ```
+Данный проект работает с вебдрайверами `firefox` и `chrome`.
+
+Нужно скачать драйверы соответствующих версий браузеров и добавить их в папку `$HOME/.local/bin/`
+
+Для запуска тестов перейти в папку `tests`
+```
+$ cd tests
+```
+Тесты по умолчанию используют вебдрайвер `firefox`:
+```
+$ pytest -v
+```
+
+Для запуска тестов c вебдрайвером `chrome`:
+```
+$ pytest -v --browser=chrome
+```
+
